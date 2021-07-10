@@ -9,18 +9,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "customers")
+@Table(name = "user_details")
 @Getter
 @Setter
 @NoArgsConstructor
-public class Customer {
+public class UserDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
-
-    @Column(name = "email")
-    private String email;
 
     @Column(name = "phone")
     private String phone;
@@ -33,9 +30,12 @@ public class Customer {
 
     @OneToOne(fetch = FetchType.LAZY)
     @MapsId
-    @JoinColumn(name = "id")
-    private Account account;
+    @JoinColumn(name = "user_id")
+    private User user;
 
-    @OneToMany(mappedBy = "customer", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Order> orders = new ArrayList<>();
+//    @OneToMany(mappedBy = "userDetail", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+//    private List<Order> orders = new ArrayList<>();
+//
+//    @OneToMany(mappedBy = "userDetail", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+//    private List<Review> reviews = new ArrayList<>();
 }

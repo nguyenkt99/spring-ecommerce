@@ -20,8 +20,9 @@ public class Role {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @Column(name = "name")
     private String name;
 
     @ManyToMany(mappedBy = "roles")
-    private List<Account> accounts = new ArrayList<>();
+    private List<User> users = new ArrayList<>();
 }

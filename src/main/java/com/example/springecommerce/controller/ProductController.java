@@ -1,8 +1,9 @@
 package com.example.springecommerce.controller;
 
 import com.example.springecommerce.dto.ProductDTO;
-import com.example.springecommerce.entity.Product;
+import com.example.springecommerce.dto.ReviewDTO;
 import com.example.springecommerce.service.ProductService;
+import com.example.springecommerce.service.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,6 +15,9 @@ public class ProductController {
 
     @Autowired
     ProductService productService;
+
+    @Autowired
+    ReviewService reviewService;
 
     @GetMapping("/products")
     public List<ProductDTO> getProducts() {
@@ -41,4 +45,14 @@ public class ProductController {
         return productService.updateProduct(productDTO);
     }
 
+    @GetMapping("/products/{productId}/reviews")
+    public List<ReviewDTO> getReviews(@PathVariable long productId) {
+        return reviewService.getReviews(productId);
+    }
+
+    @PostMapping("/products/{productId}/reviews")
+    public ReviewDTO addReview(@RequestBody ReviewDTO reviewDTO, @PathVariable long productId) {
+        reviewDTO.setProductId(productId);
+        return reviewService.addReview(reviewDTO);
+    }
 }

@@ -34,15 +34,16 @@ public class Order {
     private Double total;
 
     @Column(name = "status")
-    private Boolean status;
+    @Enumerated(EnumType.STRING)
+    private OrderStatus status;
 
-    @Column(name = "created_at")
+    @Column(name = "created_date")
     @Type(type = "timestamp")
     private Date createdDate;
 
     @ManyToOne
-    @JoinColumn(name = "customer_id")
-    private Customer customer;
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @OneToMany(mappedBy = "order", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderDetail> orderDetails = new ArrayList<>();

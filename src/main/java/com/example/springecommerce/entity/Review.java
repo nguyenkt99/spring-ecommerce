@@ -3,8 +3,10 @@ package com.example.springecommerce.entity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Table(name = "reviews")
@@ -23,9 +25,13 @@ public class Review {
     @Column(name = "description")
     private String description;
 
+    @Column(name = "created_date")
+    @Type(type = "timestamp")
+    private Date createdDate;
+
     @ManyToOne
-    @JoinColumn(name = "customer_id")
-    private Customer customer;
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @ManyToOne
     @JoinColumn(name = "product_id")

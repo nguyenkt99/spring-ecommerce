@@ -1,6 +1,5 @@
 package com.example.springecommerce.service.impl;
 
-import com.example.springecommerce.converter.CategoryConverter;
 import com.example.springecommerce.dto.CategoryDTO;
 import com.example.springecommerce.entity.Category;
 import com.example.springecommerce.repository.CategoryRepository;
@@ -10,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CategoryServiceImpl implements CategoryService {
@@ -17,35 +17,30 @@ public class CategoryServiceImpl implements CategoryService {
     @Autowired
     CategoryRepository categoryRepository;
 
-    @Autowired
-    CategoryConverter categoryConverter;
-
     @Override
-    public CategoryDTO saveCategory(CategoryDTO categoryDto) {
-        Category category = categoryConverter.toEntity(categoryDto);
-        return categoryConverter.toDto(categoryRepository.save(category));
+    public CategoryDTO saveCategory(CategoryDTO categoryDTO) {
+        Category savedCategory = categoryRepository.save(categoryDTO.toEntity());
+        return new CategoryDTO(savedCategory);
     }
 
     @Override
     public List<CategoryDTO> getCategories() {
-        List<CategoryDTO> categoryDtos = new ArrayList<>();
-        List<Category> list = categoryRepository.findAll();
-        for(Category category : list) {
-            categoryDtos.add(categoryConverter.toDto(category));
-        }
-        return categoryDtos;
+        return categoryRepository.findAll().stream().map(CategoryDTO::new)
+                .collect(Collectors.toList());
     }
 
     @Override
     public CategoryDTO getCategory(int id) {
-        return categoryConverter.toDto(categoryRepository.getById(id));
+        Category category = categoryRepository.getById(id);
+        return new CategoryDTO(category);
     }
 
     @Override
-    public CategoryDTO updateCategory(CategoryDTO categoryDto) {
-        Category oldCategory = categoryRepository.getById(categoryDto.getId());
-        Category newCategory = categoryConverter.toEntity(categoryDto, oldCategory);
-        return categoryConverter.toDto(categoryRepository.save(newCategory));
+    public CategoryDTO updateCategory(CategoryDTO categoryDTO) {
+        Category oldCategory = categoryRepository.getById(categoryDTO.getId());
+        Category newCategory = categoryDTO.toEntity(oldCategory);
+        Category savedCategory = categoryRepository.save(newCategory);
+        return new CategoryDTO(savedCategory);
     }
 
     @Override
