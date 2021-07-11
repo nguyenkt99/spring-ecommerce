@@ -11,9 +11,8 @@ import com.example.springecommerce.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,8 +29,8 @@ public class ProductServiceImpl implements ProductService {
     public ProductDTO saveProduct(ProductDTO productDTO) {
         Category category = categoryRepository.getById(productDTO.getCategoryId());
         Product product = productDTO.toEntity();
-        product.setCreatedDate(new Date());
-        product.setUpdatedDate(new Date());
+        product.setCreatedDate(LocalDateTime.now());
+        product.setUpdatedDate(LocalDateTime.now());
         System.out.println(product.getCreatedDate());
         product.setImages(productDTO.getImages().stream().map(imageDTO -> {
             Image image = imageDTO.toEntity();
@@ -68,7 +67,7 @@ public class ProductServiceImpl implements ProductService {
         Category category = categoryRepository.getById(productDTO.getCategoryId());
         Product oldProduct = productRepository.getById(productDTO.getId());
         Product newProduct = productDTO.toEntity(oldProduct);
-        newProduct.setUpdatedDate(new Date());
+        newProduct.setUpdatedDate(LocalDateTime.now());
         List<Image> newImages = productDTO.getImages().stream().map(imageDTO -> {
             Image image = imageDTO.toEntity();
             image.setProduct(newProduct);

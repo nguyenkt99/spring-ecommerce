@@ -14,9 +14,9 @@ public class CustomExceptionHandler {
         return new ErrorResponse(404, HttpStatus.NOT_FOUND, ex.getMessage());
     }
 
-    @ExceptionHandler(Exception.class)
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public ErrorResponse handlerException(Exception ex, WebRequest req) {
-        return new ErrorResponse(500, HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage());
-    }
+//    @ExceptionHandler(Exception.class)
+//    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+//    public ErrorResponse handlerException(Exception ex, WebRequest req) {
+//        return new ErrorResponse(500, HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage());
+//    }
 }

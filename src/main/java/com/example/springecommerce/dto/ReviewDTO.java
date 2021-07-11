@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @Getter
 @Setter
@@ -17,7 +16,7 @@ public class ReviewDTO {
     private Long id;
     private Integer rating;
     private String description;
-    private String createdDate;
+    private LocalDateTime createdDate;
     private Long userId;
     private Long productId;
 
@@ -25,7 +24,7 @@ public class ReviewDTO {
         this.id = review.getId();
         this.rating = review.getRating();
         this.description = review.getDescription();
-        this.createdDate = review.getCreatedDate().toString();
+        this.createdDate = review.getCreatedDate();
         this.userId = review.getUser().getId();
         this.productId = review.getProduct().getId();
     }

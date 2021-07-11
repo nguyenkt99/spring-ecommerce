@@ -3,10 +3,9 @@ package com.example.springecommerce.entity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "reviews")
@@ -26,8 +25,7 @@ public class Review {
     private String description;
 
     @Column(name = "created_date")
-    @Type(type = "timestamp")
-    private Date createdDate;
+    private LocalDateTime createdDate;
 
     @ManyToOne
     @JoinColumn(name = "user_id")

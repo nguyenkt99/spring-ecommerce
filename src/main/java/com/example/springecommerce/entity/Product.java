@@ -3,12 +3,10 @@ package com.example.springecommerce.entity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -42,12 +40,10 @@ public class Product {
     private ProductStatus status;
 
     @Column(name = "created_date")
-    @Type(type = "timestamp")
-    private Date createdDate;
+    private LocalDateTime createdDate;
 
     @Column(name = "updated_date")
-    @Type(type = "timestamp")
-    private Date updatedDate;
+    private LocalDateTime updatedDate;
 
     @ManyToOne
     @JoinColumn(name = "category_id")

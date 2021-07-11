@@ -14,13 +14,11 @@ public class ImageDTO {
     private Long id;
     private String url;
     private String description;
-    private Long productId;
 
     public ImageDTO(Image image) {
         this.id = image.getId();
         this.url = image.getUrl();
         this.description = image.getDescription();
-        this.productId = image.getProduct().getId();
     }
 
     public Image toEntity() {

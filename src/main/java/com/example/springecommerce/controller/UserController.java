@@ -18,17 +18,9 @@ public class UserController {
         return userService.getUsers();
     }
 
-    @PostMapping("/register")
-    public UserDTO register(@RequestBody UserDTO userDTO) {
-        return userService.save(userDTO);
+    @GetMapping("/users/{id}")
+    public UserDTO getUser(long id) {
+        return userService.getUserById(id);
     }
 
-    @PostMapping("/login")
-    UserDTO login(@RequestBody UserDTO userDTO) {
-        UserDTO acc = userService.getUser(userDTO);
-        if(acc != null) {
-            return acc;
-        }
-        return null;
-    }
 }

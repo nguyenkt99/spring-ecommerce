@@ -24,8 +24,20 @@ public class OrderController {
         return orderService.getOrders();
     }
 
-    @GetMapping("/users/{userId}/orders")
-    public List<OrderDTO> getOrdersByUserId(@PathVariable long userDetailId) {
-        return orderService.getOrdersByUserId(userDetailId);
+    @GetMapping("/orders/{id}")
+    public OrderDTO getOrderById(@PathVariable long id) {
+        return orderService.getOrderById(id);
     }
+
+    @GetMapping("/users/{userId}/orders")
+    public List<OrderDTO> getOrdersByUserId(@PathVariable long userId) {
+        return orderService.getOrdersByUserId(userId);
+    }
+
+    @PatchMapping("/orders/{id}")
+    public OrderDTO confirmOrder(@RequestBody OrderDTO orderDTO, @PathVariable long id) {
+        orderDTO.setId(id);
+        return orderService.confirmOrder(orderDTO);
+    }
+
 }

@@ -7,8 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,7 +23,7 @@ public class OrderDTO {
     private String phone;
     private Double total;
     private OrderStatus status;
-    private Date createdDate;
+    private LocalDateTime createdDate;
     private Long userId;
     private List<OrderDetailDTO> orderDetails = new ArrayList<>();
 
@@ -35,7 +35,7 @@ public class OrderDTO {
         this.total = order.getTotal();
         this.status = order.getStatus();
         this.createdDate = order.getCreatedDate();
-        this.userId = order.getUser().getId();
+//        this.userId = order.getUser().getId();
         this.orderDetails = order.getOrderDetails().stream().map(OrderDetailDTO::new).collect(Collectors.toList());
     }
 

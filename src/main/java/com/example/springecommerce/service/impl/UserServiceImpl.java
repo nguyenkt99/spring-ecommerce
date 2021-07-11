@@ -1,10 +1,9 @@
 package com.example.springecommerce.service.impl;
 
 import com.example.springecommerce.dto.UserDTO;
-import com.example.springecommerce.dto.UserDetailDTO;
 import com.example.springecommerce.entity.User;
 import com.example.springecommerce.entity.UserDetail;
-import com.example.springecommerce.repository.UserDetailRepository;
+import com.example.springecommerce.exception.NotFoundException;
 import com.example.springecommerce.repository.UserRepository;
 import com.example.springecommerce.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +17,8 @@ public class UserServiceImpl implements UserService {
     @Autowired
     UserRepository userRepository;
 
-    @Autowired
-    UserDetailRepository userDetailRepository;
+//    @Autowired
+//    UserDetailRepository userDetailRepository;
 
     @Override
     public UserDTO save(UserDTO userDTO) {
@@ -36,17 +35,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserDTO> getUsers() {
-        return userRepository.findAll().stream().map(UserDTO::new)
-                .collect(Collectors.toList());
+    public UserDTO getUserById(long id) {
+        User user = userRepository.findById(id).orElseThrow(() -> new NotFoundException("User not exists"));
+        return new UserDTO(user);
     }
 
     @Override
-    public UserDTO getUser(UserDTO userDTO) {
-        User user = userRepository.findByUsernameAndPassword(userDTO.getUsername(), userDTO.getPassword());
-        if(user != null) {
-            return new UserDTO(user);
-        }
-        return null;
+    public List<UserDTO> getUsers() {
+        return userRepository.findAll().stream().map(UserDTO::new)
+                .collect(Collectors.toList());
     }
 }

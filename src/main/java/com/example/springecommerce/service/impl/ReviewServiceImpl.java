@@ -11,7 +11,7 @@ import com.example.springecommerce.service.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -31,7 +31,7 @@ public class ReviewServiceImpl implements ReviewService {
         Product product = productRepository.getById(reviewDTO.getProductId());
         User user = userRepository.getById(reviewDTO.getUserId());
         Review review = reviewDTO.toEntity();
-        review.setCreatedDate(new Date());
+        review.setCreatedDate(LocalDateTime.now());
         review.setProduct(product);
         review.setUser(user);
 

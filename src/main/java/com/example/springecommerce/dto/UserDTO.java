@@ -6,8 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Getter
@@ -20,17 +20,15 @@ public class UserDTO {
     private String password;
     private String email;
     private UserDetailDTO userDetail;
-    private List<OrderDTO> orders = new ArrayList<>();
-    private List<RoleDTO> roles = new ArrayList<>();
+    private Set<String> roles = new HashSet<>();
 
     public UserDTO(User user) {
         this.id = user.getId();
         this.username = user.getUsername();
         this.password = user.getPassword();
         this.email = user.getEmail();
-        this.userDetail = new UserDetailDTO(user.getUserDetail());
-        this.roles = user.getRoles().stream().map(RoleDTO::new)
-                        .collect(Collectors.toList());
+//        this.userDetail = new UserDetailDTO(user.getUserDetail());
+        this.roles = user.getRoles().stream().map(role -> role.getName().toString()).collect(Collectors.toSet());
     }
 
     public User toEntity() {

@@ -7,9 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,8 +24,8 @@ public class ProductDTO {
     private Integer quantity;
     private String description;
     private ProductStatus status;
-    private String createdDate;
-    private String updatedDate;
+    private LocalDateTime createdDate;
+    private LocalDateTime updatedDate;
     private Integer categoryId;
     private List<ImageDTO> images = new ArrayList<>();
 //    private List<ReviewDTO> reviews = new ArrayList<>();
@@ -39,8 +38,8 @@ public class ProductDTO {
         this.quantity = product.getQuantity();
         this.description = product.getDescription();
         this.status = product.getStatus();
-        this.createdDate = product.getCreatedDate().toString();
-        this.updatedDate = product.getUpdatedDate().toString();
+        this.createdDate = product.getCreatedDate();
+        this.updatedDate = product.getUpdatedDate();
         this.categoryId = product.getCategory().getId();
         this.images = product.getImages().stream().map(ImageDTO::new).collect(Collectors.toList());
     }
