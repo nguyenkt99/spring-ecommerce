@@ -77,11 +77,40 @@ public class OrderServiceImpl implements OrderService {
         return orderRepository.findByUserId(userId).stream().map(OrderDTO::new).collect(Collectors.toList());    }
 
     @Override
-    public OrderDTO confirmOrder(OrderDTO orderDTO) {
-        Order order = orderRepository.findById(orderDTO.getId())
-                .orElseThrow(() -> new NotFoundException("Order not exists"));
-        order.setStatus(orderDTO.getStatus());
+    public OrderDTO handleOrder(OrderStatus orderStatus, long id) {
+        Order order = orderRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Order does not exists"));
+
+        if(orderStatus.equals(OrderStatus.CANCELED)) {
+            if(order.getStatus().equals(OrderStatus.CANCELED)) {
+                throw new RuntimeException("Order has been cancelled");
+            }
+            for(OrderDetail o : order.getOrderDetails()) { // return product quantity
+                Product p = productRepository.getById(o.getProduct().getId());
+                p.setQuantity(p.getQuantity() + o.getQuantity());
+            }
+        }
+
+        order.setStatus(orderStatus);
         Order savedOrder = orderRepository.save(order);
         return new OrderDTO(savedOrder);
+    }
+
+    @Override
+    public OrderDTO cancelOrder(long id) {
+        Order order = orderRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Order does not exists"));
+        if(order.getStatus().equals(OrderStatus.UNCONFIRMED)) {
+            for(OrderDetail o : order.getOrderDetails()) { // return product quantity
+                Product p = productRepository.getById(o.getProduct().getId());
+                p.setQuantity(p.getQuantity() + o.getQuantity());
+            }
+            order.setStatus(OrderStatus.CANCELED);
+            Order savedOrder = orderRepository.save(order);
+            return new OrderDTO(savedOrder);
+        } else {
+            throw new RuntimeException("Order can't be canceled");
+        }
+
     }
 }

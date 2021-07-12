@@ -1,10 +1,12 @@
 package com.example.springecommerce.controller;
 
 import com.example.springecommerce.dto.OrderDTO;
+import com.example.springecommerce.entity.OrderStatus;
 import com.example.springecommerce.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -34,10 +36,14 @@ public class OrderController {
         return orderService.getOrdersByUserId(userId);
     }
 
-    @PatchMapping("/orders/{id}")
-    public OrderDTO confirmOrder(@RequestBody OrderDTO orderDTO, @PathVariable long id) {
-        orderDTO.setId(id);
-        return orderService.confirmOrder(orderDTO);
+    @PutMapping("/orders/{id}")
+    public OrderDTO handleOrder(@Valid @RequestBody OrderStatus orderStatus, @PathVariable long id) {
+        return orderService.handleOrder(orderStatus, id);
+    }
+
+    @PutMapping("/users/{userId}/orders/{orderId}")
+    public OrderDTO cancelOrder(@PathVariable long orderId) {
+        return orderService.cancelOrder(orderId);
     }
 
 }

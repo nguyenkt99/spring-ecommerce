@@ -6,6 +6,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 @Getter
@@ -14,10 +17,19 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class ReviewDTO {
     private Long id;
+
+    @NotNull
     private Integer rating;
+
+    @NotBlank
+    @Size(min = 20, max = 100)
     private String description;
+
     private LocalDateTime createdDate;
+
+    @NotNull
     private Long userId;
+
     private Long productId;
 
     public ReviewDTO(Review review) {

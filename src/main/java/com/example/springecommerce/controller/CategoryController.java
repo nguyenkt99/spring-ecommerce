@@ -1,12 +1,11 @@
 package com.example.springecommerce.controller;
 
 import com.example.springecommerce.dto.CategoryDTO;
-import com.example.springecommerce.dto.ProductDTO;
 import com.example.springecommerce.service.CategoryService;
-import com.example.springecommerce.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -15,11 +14,8 @@ public class CategoryController {
     @Autowired
     CategoryService categoryService;
 
-    @Autowired
-    ProductService productService;
-
     @PostMapping
-    public CategoryDTO addCategory(@RequestBody CategoryDTO categoryDTO) {
+    public CategoryDTO addCategory(@Valid @RequestBody CategoryDTO categoryDTO) {
         return categoryService.saveCategory(categoryDTO);
     }
 

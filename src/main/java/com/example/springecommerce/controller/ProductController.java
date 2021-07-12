@@ -7,6 +7,7 @@ import com.example.springecommerce.service.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -35,12 +36,12 @@ public class ProductController {
     }
 
     @PostMapping("/products")
-    public ProductDTO addProduct(@RequestBody ProductDTO productDTO) {
+    public ProductDTO addProduct(@Valid @RequestBody ProductDTO productDTO) {
         return productService.saveProduct(productDTO);
     }
 
     @PutMapping("/products/{id}")
-    public ProductDTO updateProduct(@RequestBody ProductDTO productDTO, @PathVariable long id) {
+    public ProductDTO updateProduct(@Valid @RequestBody ProductDTO productDTO, @PathVariable long id) {
         productDTO.setId(id);
         return productService.updateProduct(productDTO);
     }
@@ -51,8 +52,13 @@ public class ProductController {
     }
 
     @PostMapping("/products/{productId}/reviews")
-    public ReviewDTO addReview(@RequestBody ReviewDTO reviewDTO, @PathVariable long productId) {
+    public ReviewDTO addReview(@Valid @RequestBody ReviewDTO reviewDTO, @PathVariable long productId) {
         reviewDTO.setProductId(productId);
         return reviewService.addReview(reviewDTO);
+    }
+
+    @DeleteMapping("/products/{id}")
+    public void deleteCategory(@PathVariable int id) {
+        productService.deleteProduct(id);
     }
 }

@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,12 +19,20 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class OrderDTO {
     private Long id;
+
+    @NotBlank
     private String name;
+
+    @NotBlank
     private String address;
+
+    @NotBlank
     private String phone;
     private Double total;
     private OrderStatus status;
     private LocalDateTime createdDate;
+
+    @NotBlank
     private Long userId;
     private List<OrderDetailDTO> orderDetails = new ArrayList<>();
 
@@ -35,7 +44,7 @@ public class OrderDTO {
         this.total = order.getTotal();
         this.status = order.getStatus();
         this.createdDate = order.getCreatedDate();
-//        this.userId = order.getUser().getId();
+        this.userId = order.getUser().getId();
         this.orderDetails = order.getOrderDetails().stream().map(OrderDetailDTO::new).collect(Collectors.toList());
     }
 

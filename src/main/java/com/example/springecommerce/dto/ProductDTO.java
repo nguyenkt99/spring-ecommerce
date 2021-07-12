@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.validation.constraints.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,17 +19,35 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class ProductDTO {
     private Long id;
+
+    @NotBlank
     private String name;
+
+    @NotNull
+    @Min(0)
     private Double price;
+
+    @NotBlank
     private String unit;
+
+    @NotNull
+    @Min(0)
     private Integer quantity;
+
+    @NotBlank
     private String description;
+
+    @NotNull
     private ProductStatus status;
+
     private LocalDateTime createdDate;
     private LocalDateTime updatedDate;
+
+    @NotNull
     private Integer categoryId;
+
+    @Size(min = 1, max = 3)
     private List<ImageDTO> images = new ArrayList<>();
-//    private List<ReviewDTO> reviews = new ArrayList<>();
 
     public ProductDTO(Product product) {
         this.id = product.getId();

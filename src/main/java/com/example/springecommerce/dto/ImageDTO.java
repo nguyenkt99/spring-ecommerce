@@ -6,13 +6,20 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class ImageDTO {
     private Long id;
+
+    @NotBlank
     private String url;
+
+    @NotBlank
     private String description;
 
     public ImageDTO(Image image) {

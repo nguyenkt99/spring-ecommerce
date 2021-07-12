@@ -6,6 +6,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -16,10 +20,20 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class UserDTO {
     private Long id;
+
+    @NotBlank
     private String username;
+
+    @NotBlank
+    @Size(min = 6, max = 40)
     private String password;
+
+    @Email
     private String email;
+
     private UserDetailDTO userDetail;
+
+    @Size(min = 1, max = 2)
     private Set<String> roles = new HashSet<>();
 
     public UserDTO(User user) {

@@ -4,6 +4,7 @@ import com.example.springecommerce.dto.ProductDTO;
 import com.example.springecommerce.entity.Category;
 import com.example.springecommerce.entity.Image;
 import com.example.springecommerce.entity.Product;
+import com.example.springecommerce.entity.ProductStatus;
 import com.example.springecommerce.exception.NotFoundException;
 import com.example.springecommerce.repository.CategoryRepository;
 import com.example.springecommerce.repository.ProductRepository;
@@ -38,7 +39,6 @@ public class ProductServiceImpl implements ProductService {
             return image;
         }).collect(Collectors.toList()));
         product.setCategory(category);
-
         Product savedProduct = productRepository.save(product);
         return new ProductDTO(savedProduct);
     }

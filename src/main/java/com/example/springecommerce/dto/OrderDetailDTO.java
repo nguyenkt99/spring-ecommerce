@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.validation.constraints.NotBlank;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -15,6 +17,7 @@ public class OrderDetailDTO {
 //    private Long productId;
     private ProductDTO product;
     private Double price;
+
     private Integer quantity;
 
     public OrderDetailDTO(OrderDetail orderDetail) {
