@@ -65,6 +65,9 @@ public class ProductDTO {
 
     public Product toEntity() {
         Product product = new Product();
+        if(this.id != null) { // must has id to update
+            product.setId(this.id);
+        }
         product.setName(this.name);
         product.setPrice(this.price);
         product.setUnit(this.unit);
@@ -73,15 +76,4 @@ public class ProductDTO {
         product.setStatus(this.status);
         return product;
     }
-
-    public Product toEntity(Product oldProduct) {
-        oldProduct.setName(this.name);
-        oldProduct.setPrice(this.price);
-        oldProduct.setUnit(this.unit);
-        oldProduct.setQuantity(this.quantity);
-        oldProduct.setDescription(this.description);
-        oldProduct.setStatus(this.status);
-        return oldProduct;
-    }
-
 }

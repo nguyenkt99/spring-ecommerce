@@ -32,7 +32,6 @@ public class ProductServiceImpl implements ProductService {
         Product product = productDTO.toEntity();
         product.setCreatedDate(LocalDateTime.now());
         product.setUpdatedDate(LocalDateTime.now());
-        System.out.println(product.getCreatedDate());
         product.setImages(productDTO.getImages().stream().map(imageDTO -> {
             Image image = imageDTO.toEntity();
             image.setProduct(product);
@@ -65,21 +64,26 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductDTO updateProduct(ProductDTO productDTO) {
         Category category = categoryRepository.getById(productDTO.getCategoryId());
-        Product oldProduct = productRepository.getById(productDTO.getId());
-        Product newProduct = productDTO.toEntity(oldProduct);
-        newProduct.setUpdatedDate(LocalDateTime.now());
+        Product product = productRepository.getById(productDTO.getId());
+        product.setName(productDTO.getName());
+        product.setPrice(productDTO.getPrice());
+        product.setUnit(productDTO.getUnit());
+        product.setQuantity(productDTO.getQuantity());
+        product.setDescription(productDTO.getDescription());
+        product.setStatus(productDTO.getStatus());
+        product.setUpdatedDate(LocalDateTime.now());
         List<Image> newImages = productDTO.getImages().stream().map(imageDTO -> {
             Image image = imageDTO.toEntity();
-            image.setProduct(newProduct);
+            image.setProduct(product);
             return image;
         }).collect(Collectors.toList());
 
-        newProduct.getImages().clear();
+        product.getImages().clear();
         List<? extends Image> newImagesCol = new ArrayList<>(newImages);  // convert list -> collection to addAll()
-        newProduct.getImages().addAll(newImagesCol);
-        newProduct.setCategory(category);
+        product.getImages().addAll(newImagesCol);
+        product.setCategory(category);
 
-        Product savedProduct = productRepository.save(newProduct);
+        Product savedProduct = productRepository.save(product);
         return new ProductDTO(savedProduct);
     }
 

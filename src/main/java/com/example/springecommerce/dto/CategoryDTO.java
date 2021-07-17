@@ -30,21 +30,19 @@ public class CategoryDTO {
         this.description = category.getDescription();
     }
 
-    // when create
     public Category toEntity() {
         Category category = new Category();
-//        if(this.id != null) { // must has id to update
-//            category.setId(this.id);
-//        }
+        if(this.id != null) { // must has id to update
+            category.setId(this.id);
+        }
         category.setName(this.name);
         category.setDescription(this.description);
         return category;
     }
 
-    // when update
-    public Category toEntity(Category oldCategory) {
-        oldCategory.setName(this.name);
-        oldCategory.setDescription(this.description);
-        return oldCategory;
-    }
+//    public Category toEntity(Category oldCategory) {
+//        oldCategory.setName(this.name);
+//        oldCategory.setDescription(this.description);
+//        return oldCategory;
+//    }
 }

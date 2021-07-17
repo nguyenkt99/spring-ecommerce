@@ -33,7 +33,6 @@ public class OrderServiceImpl implements OrderService {
         double totalPrice = 0;
         Order order = orderDTO.toEntity();
         order.setCreatedDate(LocalDateTime.now());
-        User user = userRepository.findById(orderDTO.getUserId()).orElseThrow(() -> new NotFoundException("User not exists"));
         order.setUser(userRepository.getById(orderDTO.getUserId()));
 
         List<OrderDetail> orderDetails = new ArrayList<>();
@@ -55,7 +54,6 @@ public class OrderServiceImpl implements OrderService {
 
         order.setStatus(OrderStatus.UNCONFIRMED);
         order.setTotal(totalPrice);
-        order.setUser(user);
         order.setOrderDetails(orderDetails);
         Order savedOrder = orderRepository.save(order);
         return new OrderDTO(savedOrder);
@@ -63,7 +61,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public OrderDTO getOrderById(long id) {
-        Order order = orderRepository.findById(id).orElseThrow(() -> new NotFoundException("Order not exist"));
+        Order order = orderRepository.findById(id).orElseThrow(() -> new NotFoundException("Order not exists"));
         return new OrderDTO(order);
     }
 
@@ -78,9 +76,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public OrderDTO handleOrder(OrderStatus orderStatus, long id) {
-        Order order = orderRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("Order does not exists"));
-
+        Order order = orderRepository.getById(id);
         if(orderStatus.equals(OrderStatus.CANCELED)) {
             if(order.getStatus().equals(OrderStatus.CANCELED)) {
                 throw new RuntimeException("Order has been cancelled");
@@ -98,8 +94,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public OrderDTO cancelOrder(long id) {
-        Order order = orderRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("Order does not exists"));
+        Order order = orderRepository.getById(id);
         if(order.getStatus().equals(OrderStatus.UNCONFIRMED)) {
             for(OrderDetail o : order.getOrderDetails()) { // return product quantity
                 Product p = productRepository.getById(o.getProduct().getId());
@@ -111,6 +106,5 @@ public class OrderServiceImpl implements OrderService {
         } else {
             throw new RuntimeException("Order can't be canceled");
         }
-
     }
 }
