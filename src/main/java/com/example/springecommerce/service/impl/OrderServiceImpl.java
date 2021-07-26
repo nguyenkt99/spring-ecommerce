@@ -75,6 +75,14 @@ public class OrderServiceImpl implements OrderService {
         return orderRepository.findByUserId(userId).stream().map(OrderDTO::new).collect(Collectors.toList());    }
 
     @Override
+    public OrderDTO getOrderByUserIdAndOrderId(long userId, long orderId) {
+        Order order = orderRepository.findByUserIdAndOrderId(userId, orderId);
+        if(order == null)
+            throw new NotFoundException("Order not exists");
+        return new OrderDTO(order);
+    }
+
+    @Override
     public OrderDTO handleOrder(OrderStatus orderStatus, long id) {
         Order order = orderRepository.getById(id);
         if(orderStatus.equals(OrderStatus.CANCELED)) {

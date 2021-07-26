@@ -10,6 +10,8 @@ public interface OrderService {
     OrderDTO getOrderById(long id);
     List<OrderDTO> getOrders();
     List<OrderDTO> getOrdersByUserId(long userId);
+    OrderDTO getOrderByUserIdAndOrderId(long userId, long orderId);
     OrderDTO handleOrder(OrderStatus orderStatus, long id);
     OrderDTO cancelOrder(long id);
+
 }

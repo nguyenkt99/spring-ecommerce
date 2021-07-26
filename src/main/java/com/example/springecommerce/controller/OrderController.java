@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api")
 public class OrderController {
@@ -17,7 +18,7 @@ public class OrderController {
     OrderService orderService;
 
     @PostMapping("/orders")
-    public OrderDTO addOrder(@RequestBody OrderDTO orderDTO) {
+    public OrderDTO addOrder(@Valid @RequestBody OrderDTO orderDTO) {
         return orderService.saveOrder(orderDTO);
     }
 
@@ -34,6 +35,11 @@ public class OrderController {
     @GetMapping("/users/{userId}/orders")
     public List<OrderDTO> getOrdersByUserId(@PathVariable long userId) {
         return orderService.getOrdersByUserId(userId);
+    }
+
+    @GetMapping("/users/{userId}/orders/{orderId}")
+    public OrderDTO getOrderByUserIdAndOrderId(@PathVariable long userId, @PathVariable long orderId) {
+        return orderService.getOrderByUserIdAndOrderId(userId, orderId);
     }
 
     @PutMapping("/orders/{id}")

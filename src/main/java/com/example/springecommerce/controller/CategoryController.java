@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/categories")
 public class CategoryController {
@@ -30,7 +31,7 @@ public class CategoryController {
     }
 
     @PutMapping("/{id}")
-    public CategoryDTO updateCategory(@RequestBody CategoryDTO categoryDTO, @PathVariable int id) {
+    public CategoryDTO updateCategory(@Valid @RequestBody CategoryDTO categoryDTO, @PathVariable int id) {
         categoryDTO.setId(id);
         return categoryService.updateCategory(categoryDTO);
     }
