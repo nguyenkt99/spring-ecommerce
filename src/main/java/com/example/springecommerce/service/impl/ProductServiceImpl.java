@@ -8,6 +8,7 @@ import com.example.springecommerce.entity.ProductStatus;
 import com.example.springecommerce.exception.NotFoundException;
 import com.example.springecommerce.repository.CategoryRepository;
 import com.example.springecommerce.repository.ProductRepository;
+import com.example.springecommerce.service.ImageUploader;
 import com.example.springecommerce.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,6 +27,9 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     ProductRepository productRepository;
 
+    @Autowired
+    ImageUploader imageUploader;
+
     @Override
     public ProductDTO saveProduct(ProductDTO productDTO) {
         Category category = categoryRepository.getById(productDTO.getCategoryId());
@@ -33,6 +37,16 @@ public class ProductServiceImpl implements ProductService {
         product.setCreatedDate(LocalDateTime.now());
         product.setUpdatedDate(LocalDateTime.now());
         product.setImages(productDTO.getImages().stream().map(imageDTO -> {
+            if(imageDTO.getUrl().isEmpty()) {
+                imageDTO.setUrl("https://res.cloudinary.com/dksxh0tqy/image/upload/v1627399894/default-image_jejnqj.jpg");
+            } else {
+                String url = imageUploader.uploadImage(imageDTO.getUrl());
+                if(url != null) {
+                    imageDTO.setUrl(url);
+                } else {
+                    imageDTO.setUrl("https://res.cloudinary.com/dksxh0tqy/image/upload/v1627399894/default-image_jejnqj.jpg");
+                }
+            }
             Image image = imageDTO.toEntity();
             image.setProduct(product);
             return image;

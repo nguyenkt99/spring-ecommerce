@@ -20,8 +20,8 @@ public class Image {
     @Column(name = "url")
     private String url;
 
-    @Column(name = "description")
-    private String description;
+//    @Column(name = "description")
+//    private String description;
 
     @ManyToOne
     @JoinColumn(name = "product_id")

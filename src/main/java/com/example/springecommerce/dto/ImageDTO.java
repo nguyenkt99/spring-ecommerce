@@ -19,13 +19,13 @@ public class ImageDTO {
     @NotBlank
     private String url;
 
-    @NotBlank
-    private String description;
+//    @NotBlank
+//    private String description;
 
     public ImageDTO(Image image) {
         this.id = image.getId();
         this.url = image.getUrl();
-        this.description = image.getDescription();
+//        this.description = image.getDescription();
     }
 
     public Image toEntity() {
@@ -34,7 +34,7 @@ public class ImageDTO {
             image.setId(this.id);
         }
         image.setUrl(this.url);
-        image.setDescription(this.description);
+//        image.setDescription(this.description);
         return image;
     }
 }

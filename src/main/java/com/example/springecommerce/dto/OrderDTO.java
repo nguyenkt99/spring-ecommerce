@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +33,7 @@ public class OrderDTO {
     private OrderStatus status;
     private LocalDateTime createdDate;
 
-    @NotBlank
+    @NotNull
     private Long userId;
     private List<OrderDetailDTO> orderDetails = new ArrayList<>();
 
