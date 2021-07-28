@@ -28,7 +28,6 @@ public class UserDetailDTO {
     private Long userId;
 
     public UserDetailDTO(UserDetail userDetail) {
-        //this.id = userDetail.getId();
         this.name = userDetail.getName();
         this.address = userDetail.getAddress();
         this.phone = userDetail.getPhone();

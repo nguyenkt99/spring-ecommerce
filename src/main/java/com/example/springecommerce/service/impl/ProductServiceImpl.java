@@ -37,7 +37,7 @@ public class ProductServiceImpl implements ProductService {
         product.setCreatedDate(LocalDateTime.now());
         product.setUpdatedDate(LocalDateTime.now());
         product.setImages(productDTO.getImages().stream().map(imageDTO -> {
-            if(imageDTO.getUrl().isEmpty()) {
+            if(imageDTO.getUrl().isEmpty() || imageDTO.getUrl() == null) {
                 imageDTO.setUrl("https://res.cloudinary.com/dksxh0tqy/image/upload/v1627399894/default-image_jejnqj.jpg");
             } else {
                 String url = imageUploader.uploadImage(imageDTO.getUrl());
@@ -87,8 +87,21 @@ public class ProductServiceImpl implements ProductService {
         product.setStatus(productDTO.getStatus());
         product.setUpdatedDate(LocalDateTime.now());
         List<Image> newImages = productDTO.getImages().stream().map(imageDTO -> {
+            if(imageDTO.getUrl().isEmpty() || imageDTO.getUrl() == null) {
+                imageDTO.setUrl("https://res.cloudinary.com/dksxh0tqy/image/upload/v1627399894/default-image_jejnqj.jpg");
+            } else {
+                if(imageDTO.getUrl().startsWith("data:image")){ // new image
+                    String url = imageUploader.uploadImage(imageDTO.getUrl());
+                    if(url != null) {
+                        imageDTO.setUrl(url);
+                    } else {
+                        imageDTO.setUrl("https://res.cloudinary.com/dksxh0tqy/image/upload/v1627399894/default-image_jejnqj.jpg");
+                    }
+                }
+            }
             Image image = imageDTO.toEntity();
             image.setProduct(product);
+
             return image;
         }).collect(Collectors.toList());
 

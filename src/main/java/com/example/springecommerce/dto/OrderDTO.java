@@ -9,6 +9,7 @@ import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +36,7 @@ public class OrderDTO {
 
     @NotNull
     private Long userId;
+    @Size(min = 1)
     private List<OrderDetailDTO> orderDetails = new ArrayList<>();
 
     public OrderDTO(Order order) {
