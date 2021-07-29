@@ -22,8 +22,8 @@ public class UserDetailServiceImpl implements UserDetailService {
     @Override
     public UserDetailDTO saveUserDetail(UserDetailDTO userDetailDTO) {
         User user = userRepository.getById(userDetailDTO.getUserId());
-        UserDetail userDetail;
-        userDetail = userDetailRepository.getById(userDetailDTO.getUserId());
+        UserDetail userDetail = null;
+        userDetail = userDetailRepository.findById(userDetailDTO.getUserId()).orElse(null);
         if(userDetail != null) {
             userDetail.setName(userDetailDTO.getName());
             userDetail.setPhone(userDetailDTO.getPhone());
